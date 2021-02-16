@@ -33,16 +33,30 @@ public class MainActivity extends AppCompatActivity {
                     if (!settings.getString("onLongClickSettingsToasts", "").equals("false")) {
                         if ((Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) == 1 || (Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) > 1) {
                             if ((Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) == 2 || (Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) > 2) {
-                                settings.edit().putString("onLongClickAmountCounter", "0").commit();
+                                settings.edit().putString("onLongClickAmountCounter", "0").apply();
                                 Utility.showToast(getApplicationContext(), "TouchBlocker: Opening to the settings activity. Long touch  was blocked.");
                                 // TODO: make settings activity and fill here to start a intent to go to the settings activity
                             } else {
-                                settings.edit().putString("onLongClickAmountCounter", "2").commit();
+                                settings.edit().putString("onLongClickAmountCounter", "2").apply();
                                 Utility.showToast(getApplicationContext(), "TouchBlocker: Do another long touch to open the settings (2/3). Long touch was also blocked");
                             }
                         } else {
-                            settings.edit().putString("onLongClickAmountCounter", "1").commit();
+                            settings.edit().putString("onLongClickAmountCounter", "1").apply();
                             Utility.showToast(getApplicationContext(), "TouchBlocker: Do another long touch 2 times to open the settings (1/3). Long touch was also blocked");
+                        }
+                    } else {
+                        if ((Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) == 1 || (Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) > 1) {
+                            if ((Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) == 2 || (Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) > 2) {
+                                settings.edit().putString("onLongClickAmountCounter", "0").apply();
+                                Utility.showToast(getApplicationContext(), "TouchBlocker: Long touch  was blocked.");
+                                // TODO: make settings activity and fill here to start a intent to go to the settings activity
+                            } else {
+                                settings.edit().putString("onLongClickAmountCounter", "2").apply();
+                                Utility.showToast(getApplicationContext(), "TouchBlocker: Long touch blocked.");
+                            }
+                        } else {
+                            settings.edit().putString("onLongClickAmountCounter", "1").apply();
+                            Utility.showToast(getApplicationContext(), "TouchBlocker: Long touch blocked.");
                         }
                     }
                 }
