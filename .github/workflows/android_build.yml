@@ -23,3 +23,9 @@ jobs:
         run: |
           ./gradlew clean
           ./gradlew build
+      
+      - name: Upload compiled apk to artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: compiled-app
+          path: app/build/outputs/apk/debug/app-debug.apk
