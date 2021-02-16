@@ -23,9 +23,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        try {
+            if(getActionBar() != null) { this.getActionBar().hide();}
+            if(getSupportActionBar() != null) { this.getSupportActionBar().hide(); }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
         feedbackLinearLayout = (LinearLayout)findViewById(R.id.feedbackLinearLayout);
         settings = getSharedPreferences("settings", Activity.MODE_PRIVATE);
 
+        // Prevents a crash if the user did a long touch (fact: almost forgot to add this lol)
+        settings.edit().putString("onLongClickAmountCounter", "0").apply();
+
+        // onLongClick for feedbackLinearLayout
         feedbackLinearLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -62,6 +73,14 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 return true;
+            }
+        });
+
+        // onTouch for feedbackLinearLayout
+        feedbackLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Utility.showToast(getApplicationContext(), "TouchBlocker: Touch blocked.");
             }
         });
     }
