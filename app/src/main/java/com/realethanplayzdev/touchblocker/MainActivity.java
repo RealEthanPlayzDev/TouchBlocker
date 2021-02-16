@@ -33,6 +33,14 @@ public class MainActivity extends AppCompatActivity {
         feedbackLinearLayout = (LinearLayout)findViewById(R.id.feedbackLinearLayout);
         settings = getSharedPreferences("settings", Activity.MODE_PRIVATE);
 
+        // I'm just gonna be honest but not sure if this is a good practice or not. - Ethan
+        if(!settings.getBoolean("firstTimeLaunch",true)) {
+            settings.edit().putBoolean("showOnClickToasts", true).apply();
+            settings.edit().putBoolean("showOnLongClickToasts", true).apply();
+            settings.edit().putBoolean("showOnLongClickCounters", true).apply();
+            settings.edit().putBoolean("firstTimeLaunch", true).apply();
+        }
+
         // Prevents a crash if the user did a long touch (fact: almost forgot to add this lol)
         settings.edit().putString("onLongClickAmountCounter", "0").apply();
 
@@ -40,13 +48,13 @@ public class MainActivity extends AppCompatActivity {
         feedbackLinearLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                if (!settings.getString("onLongClickToasts", "").equals("false")) {
-                    if (!settings.getString("onLongClickSettingsToasts", "").equals("false")) {
+                if (settings.getBoolean("showOnLongClickToasts", true)) {
+                    if (settings.getBoolean("showOnLongClickCounters", true)) {
                         if ((Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) == 1 || (Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) > 1) {
                             if ((Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) == 2 || (Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) > 2) {
                                 settings.edit().putString("onLongClickAmountCounter", "0").apply();
                                 Utility.showToast(getApplicationContext(), "TouchBlocker: Opening to the settings activity. Long touch  was blocked.");
-                                // TODO: make settings activity and fill here to start a intent to go to the settings activity
+                                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                             } else {
                                 settings.edit().putString("onLongClickAmountCounter", "2").apply();
                                 Utility.showToast(getApplicationContext(), "TouchBlocker: Do another long touch to open the settings (2/3). Long touch was also blocked");
@@ -59,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
                         if ((Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) == 1 || (Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) > 1) {
                             if ((Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) == 2 || (Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) > 2) {
                                 settings.edit().putString("onLongClickAmountCounter", "0").apply();
-                                Utility.showToast(getApplicationContext(), "TouchBlocker: Long touch  was blocked.");
-                                // TODO: make settings activity and fill here to start a intent to go to the settings activity
+                                Utility.showToast(getApplicationContext(), "TouchBlocker: Long touch was blocked.");
+                                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                             } else {
                                 settings.edit().putString("onLongClickAmountCounter", "2").apply();
                                 Utility.showToast(getApplicationContext(), "TouchBlocker: Long touch blocked.");
@@ -69,6 +77,17 @@ public class MainActivity extends AppCompatActivity {
                             settings.edit().putString("onLongClickAmountCounter", "1").apply();
                             Utility.showToast(getApplicationContext(), "TouchBlocker: Long touch blocked.");
                         }
+                    }
+                } else {
+                    if ((Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) == 1 || (Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) > 1) {
+                        if ((Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) == 2 || (Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) > 2) {
+                            settings.edit().putString("onLongClickAmountCounter", "0").apply();
+                            startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                        } else {
+                            settings.edit().putString("onLongClickAmountCounter", "2").apply();
+                        }
+                    } else {
+                        settings.edit().putString("onLongClickAmountCounter", "1").apply();
                     }
                 }
 
@@ -80,7 +99,9 @@ public class MainActivity extends AppCompatActivity {
         feedbackLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Utility.showToast(getApplicationContext(), "TouchBlocker: Touch blocked.");
+                if(settings.getBoolean("showOnClickToasts", true)) {
+                    Utility.showToast(getApplicationContext(), "TouchBlocker: Touch blocked.");
+                }
             }
         });
     }
