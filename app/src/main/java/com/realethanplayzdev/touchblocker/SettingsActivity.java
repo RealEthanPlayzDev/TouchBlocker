@@ -4,6 +4,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -27,6 +30,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     private Intent activityChange;
 
+    private ActivityManager activityManager;
+    private ActivityManagerActivity activityManagerActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +50,9 @@ public class SettingsActivity extends AppCompatActivity {
         showoctoasts.setChecked(settings.getBoolean("showOnClickToasts", true));
         showolctoasts.setChecked(settings.getBoolean("showOnLongClickToasts", true));
         showolcsettingscounter.setChecked(settings.getBoolean("showOnLongClickCounters", true));
+
+        activityManager = new ActivityManager(getApplicationContext(), getSharedPreferences("activityManagerData", Activity.MODE_PRIVATE));
+        activityManagerActivity = activityManager.initActivity("SettingsActivity");
 
         showoctoasts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -90,7 +99,27 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 settings.edit().clear().apply();
+                AlertDialog notifDiag = new AlertDialog.Builder(SettingsActivity.this)
+                        .setTitle("Reset settings")
+                        .setMessage("Please restart the app and close remaining running activities first.")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+
+                notifDiag.show();
             }
         });
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        activityManagerActivity.onActivityDestroy();
+        activityManager.destroyActivity(activityManagerActivity.getActivityName());
+    }
+
 }
