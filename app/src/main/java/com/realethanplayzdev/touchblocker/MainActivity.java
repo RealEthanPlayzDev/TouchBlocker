@@ -1,14 +1,13 @@
 package com.realethanplayzdev.touchblocker;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,9 +16,11 @@ public class MainActivity extends AppCompatActivity {
 
     // SharedPreferences definition
     private SharedPreferences settings;
-    private SharedPreferences activityManager;
 
     private int onLongClickCounter;
+
+    private ActivityManager activityManager;
+    private ActivityManagerActivity activityManagerActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Prevents a crash if the user did a long touch (fact: almost forgot to add this lol)
         settings.edit().putString("onLongClickAmountCounter", "0").apply();
+
+        activityManager = new ActivityManager(getApplicationContext());
+        activityManagerActivity = activityManager.initializeActivity("MainActivity");
 
         // onLongClick for feedbackLinearLayout
         feedbackLinearLayout.setOnLongClickListener(new View.OnLongClickListener() {
@@ -109,6 +113,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        activityManagerActivity.destroy();
+    }
 
 }

@@ -18,6 +18,12 @@
 ## Introduction to TouchBlocker
 TouchBlocker is a Android application made to prevent accidental touches. You can use this in a normal activity state/multi-window/freeform-window activity state to prevent accidental touches by directly capturing the touches to TouchBlocker's activities. The activities are also transparent, which mean you can still see the app behind the TouchBlocker activity.
 
+## TODOs
+- [x] Finish rewriting and porting to Android Studio from Sketchware.
+- [ ] ActivityManager class for getting activity states.
+- [ ] Launching TouchBlocker from your quick settings panel. (Requires ActivityManager)
+- [ ] Use pop-up windows (not multi/freeform windows) to break a barrier limitation...
+
 ## License
 TouchBlocker is licensed under [GNU GPLv3](https://github.com/RealEthanPlayzDev/TouchBlocker/blob/master/LICENSE)
 
