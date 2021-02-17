@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -17,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     // SharedPreferences definition
     private SharedPreferences settings;
     private SharedPreferences activityManager;
+
+    private int onLongClickCounter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,46 +51,46 @@ public class MainActivity extends AppCompatActivity {
         feedbackLinearLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                if (settings.getBoolean("showOnLongClickToasts", true)) {
-                    if (settings.getBoolean("showOnLongClickCounters", true)) {
-                        if ((Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) == 1 || (Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) > 1) {
-                            if ((Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) == 2 || (Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) > 2) {
-                                settings.edit().putString("onLongClickAmountCounter", "0").apply();
-                                Utility.showToast(getApplicationContext(), "TouchBlocker: Opening to the settings activity. Long touch  was blocked.");
+                if(settings.getBoolean("showOnLongClickToasts", true)) { // showing onLongClick enabled
+                    if(settings.getBoolean("showOnLongClickCounters", true)) { // showing settings onLongClick counter enabled
+                        if(onLongClickCounter == 1 |  onLongClickCounter  > 1) {
+                            if(onLongClickCounter == 2 | onLongClickCounter > 1) {
+                                onLongClickCounter = 0;
+                                Utility.showToast(getApplicationContext(), "TouchBlocker: Launching TouchBlocker settings. onLongTouch blocked.");
                                 startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                             } else {
-                                settings.edit().putString("onLongClickAmountCounter", "2").apply();
-                                Utility.showToast(getApplicationContext(), "TouchBlocker: Do another long touch to open the settings (2/3). Long touch was also blocked");
+                                onLongClickCounter  = 2;
+                                Utility.showToast(getApplicationContext(),"TouchBlocker: Do another long touch to open TouchBlocker settings (2/3). onLongTouch blocked.");
                             }
                         } else {
-                            settings.edit().putString("onLongClickAmountCounter", "1").apply();
-                            Utility.showToast(getApplicationContext(), "TouchBlocker: Do another long touch 2 times to open the settings (1/3). Long touch was also blocked");
+                            onLongClickCounter = 1;
+                            Utility.showToast(getApplicationContext(),"TouchBlocker: Do 2 more long touches to open TouchBlocker settings (1/3). onLongTouch blocked.");
                         }
-                    } else {
-                        if ((Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) == 1 || (Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) > 1) {
-                            if ((Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) == 2 || (Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) > 2) {
-                                settings.edit().putString("onLongClickAmountCounter", "0").apply();
-                                Utility.showToast(getApplicationContext(), "TouchBlocker: Long touch was blocked.");
+                    } else { // showing settings onLongClick counter disabled
+                        if(onLongClickCounter == 1 |  onLongClickCounter  > 1) {
+                            if(onLongClickCounter == 2 | onLongClickCounter > 1) {
+                                onLongClickCounter = 0;
+                                Utility.showToast(getApplicationContext(), "TouchBlocker: onLongTouch blocked.");
                                 startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                             } else {
-                                settings.edit().putString("onLongClickAmountCounter", "2").apply();
-                                Utility.showToast(getApplicationContext(), "TouchBlocker: Long touch blocked.");
+                                onLongClickCounter  = 2;
+                                Utility.showToast(getApplicationContext(),"TouchBlocker: onLongTouch blocked.");
                             }
                         } else {
-                            settings.edit().putString("onLongClickAmountCounter", "1").apply();
-                            Utility.showToast(getApplicationContext(), "TouchBlocker: Long touch blocked.");
+                            onLongClickCounter = 1;
+                            Utility.showToast(getApplicationContext(),"TouchBlocker: onLongTouch blocked.");
                         }
                     }
-                } else {
-                    if ((Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) == 1 || (Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) > 1) {
-                        if ((Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) == 2 || (Double.parseDouble(settings.getString("onLongClickAmountCounter", ""))) > 2) {
-                            settings.edit().putString("onLongClickAmountCounter", "0").apply();
+                } else { // showing onLongClick disabled
+                    if(onLongClickCounter == 1 |  onLongClickCounter  > 1) {
+                        if(onLongClickCounter == 2 | onLongClickCounter > 1) {
+                            onLongClickCounter = 0;
                             startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                         } else {
-                            settings.edit().putString("onLongClickAmountCounter", "2").apply();
+                            onLongClickCounter  = 2;
                         }
                     } else {
-                        settings.edit().putString("onLongClickAmountCounter", "1").apply();
+                        onLongClickCounter = 1;
                     }
                 }
 

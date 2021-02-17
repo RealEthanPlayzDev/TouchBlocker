@@ -20,6 +20,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Switch showolctoasts;
     private Switch showolcsettingscounter;
     private Button launchnewwindow;
+    private Button resetsettings;
 
     // SharedPrefences
     private SharedPreferences settings;
@@ -35,12 +36,13 @@ public class SettingsActivity extends AppCompatActivity {
         showolctoasts = (Switch)findViewById(R.id.showolctoasts);
         showolcsettingscounter = (Switch)findViewById(R.id.showolcsettingscounter);
         launchnewwindow = (Button)findViewById(R.id.launchnewindow);
+        resetsettings = (Button)findViewById(R.id.resetsettings);
 
         settings = getSharedPreferences("settings", Activity.MODE_PRIVATE);
 
         // Fetch the current settings and then apply it to the switches
         showoctoasts.setChecked(settings.getBoolean("showOnClickToasts", true));
-        showoctoasts.setChecked(settings.getBoolean("showOnLongClickToasts", true));
+        showolctoasts.setChecked(settings.getBoolean("showOnLongClickToasts", true));
         showolcsettingscounter.setChecked(settings.getBoolean("showOnLongClickCounters", true));
 
         showoctoasts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -81,6 +83,13 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT | Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
+        });
+
+        resetsettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settings.edit().clear().apply();
             }
         });
     }
