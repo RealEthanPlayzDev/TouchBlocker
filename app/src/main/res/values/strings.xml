@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">TouchBlocker</string>
+    <string name="settingsresetsettings">Reset Settings</string>
+    <string name="settingslaunchtouchblockerwindow">Launch new TouchBlocker window</string>
+    <string name="settingslaunchnewwindownote">Note: in order for the button above to work, the app must be already in multi-window/freeform window mode to launch a new separate TouchBlocker window, this is due to limitations of Android.</string>
+    <string name="settingsshowolccounterswitch">Show onLongClick settings counter</string>
+    <string name="settingsshowolctoastsswitch">Show onLongClick toasts</string>
+    <string name="settingsshowoctoastsswitch">Show onClick toasts</string>
+    <string name="settingstitle">TouchBlocker Settings</string>
 </resources>
