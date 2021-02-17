@@ -17,7 +17,9 @@ public class MainActivity extends AppCompatActivity {
 
     // SharedPreferences definition
     private SharedPreferences settings;
-    private SharedPreferences activityManager;
+
+    private ActivityManager activityManager;
+    private ActivityManagerActivity activityManagerActivity;
 
     private int onLongClickCounter;
 
@@ -35,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
         feedbackLinearLayout = (LinearLayout)findViewById(R.id.feedbackLinearLayout);
         settings = getSharedPreferences("settings", Activity.MODE_PRIVATE);
+
+        activityManager = new ActivityManager(getApplicationContext(), getSharedPreferences("activityManagerData", Activity.MODE_PRIVATE));
+        activityManagerActivity = activityManager.initActivity("MainActivity");
 
         // I'm just gonna be honest but not sure if this is a good practice or not. - Ethan
         if(!settings.getBoolean("firstTimeLaunch",true)) {
@@ -109,6 +114,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        activityManagerActivity.onActivityDestroy();
+        activityManager.destroyActivity(activityManagerActivity.getActivityName());
+    }
 
 }
