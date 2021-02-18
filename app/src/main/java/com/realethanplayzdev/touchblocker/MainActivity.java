@@ -6,9 +6,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import com.realethanplayzdev.touchblocker.activitymanager.ActivityManager;
+import com.realethanplayzdev.touchblocker.activitymanager.ActivityManagerActivity;
 
 public class MainActivity extends AppCompatActivity {
 

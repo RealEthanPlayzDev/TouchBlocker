@@ -1,4 +1,4 @@
-package com.realethanplayzdev.touchblocker;
+package com.realethanplayzdev.touchblocker.activitymanager;
 
 public enum ActivityState {
     ACTIVITY_IN_FOREGROUND,
