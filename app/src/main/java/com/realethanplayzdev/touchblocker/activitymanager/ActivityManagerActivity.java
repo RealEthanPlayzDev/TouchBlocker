@@ -29,4 +29,9 @@ public class ActivityManagerActivity {
     public String getActivityName() {
         return activityName;
     }
+
+    // Set state
+    public void setActivityState(ActivityState newState) {
+        state = state;
+    }
 }
