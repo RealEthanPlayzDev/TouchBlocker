@@ -1,8 +1,8 @@
-package com.realethanplayzdev.touchblocker;
+package com.realethanplayzdev.touchblocker.activitymanager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+
 import com.google.gson.*;
 
 public class ActivityManager {

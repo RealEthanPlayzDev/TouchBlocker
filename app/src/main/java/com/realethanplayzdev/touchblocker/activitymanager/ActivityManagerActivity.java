@@ -1,4 +1,4 @@
-package com.realethanplayzdev.touchblocker;
+package com.realethanplayzdev.touchblocker.activitymanager;
 
 public class ActivityManagerActivity {
     private boolean activityExists = false;
