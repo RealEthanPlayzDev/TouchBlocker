@@ -30,6 +30,12 @@ public class ActivityManager {
 
     public ActivityManagerActivity getActivityManagerActivityObject(String targetActivityName) {
         String json = activityManagerData.getString(targetActivityName, "");
-        return new Gson().fromJson(json, ActivityManagerActivity.class);
+        if(!json.equals("")) {
+            return new Gson().fromJson(json, ActivityManagerActivity.class);
+        } else {
+            ActivityManagerActivity a = new ActivityManagerActivity(targetActivityName);
+            a.setActivityState(ActivityState.STATE_DOESNT_EXIST);
+            return a;
+        }
     }
 }
