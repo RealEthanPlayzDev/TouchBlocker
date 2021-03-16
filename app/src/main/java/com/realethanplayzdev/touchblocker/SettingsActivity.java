@@ -115,6 +115,7 @@ public class SettingsActivity extends AppCompatActivity {
                     Rect freeformRect = new Rect(0, 0, dm.widthPixels / 2, dm.heightPixels / 2);
                     windowOpt.getClass().getDeclaredMethod("setLaunchBounds", Rect.class).invoke(windowOpt, freeformRect);
                     startActivity(windowIntent, windowOpt.toBundle());
+                    Utility.showToast(getApplicationContext(), "Success!");
                 } catch(Exception e) {
                     Utility.showToast(getApplicationContext(), "An error has occured while attempting to create a new freeform state activity.\n"+e.toString());
                 }
