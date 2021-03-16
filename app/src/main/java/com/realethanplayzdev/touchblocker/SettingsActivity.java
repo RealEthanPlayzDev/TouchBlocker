@@ -104,7 +104,6 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // startActivity(new Intent(getApplicationContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT | Intent.FLAG_ACTIVITY_NEW_TASK));
-
                 try {
                     Intent windowIntent = new Intent(getApplicationContext(), MainActivity.class);
                     windowIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
