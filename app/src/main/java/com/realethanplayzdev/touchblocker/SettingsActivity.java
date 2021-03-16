@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -102,13 +103,22 @@ public class SettingsActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                /*
-                ActivityOptions ao = new ActivityOptions();
-                ao.makeBasic();
-                ao.setLaunchBounds(new Rect());
-                startActivity(new Intent(getApplicationContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT | Intent.FLAG_ACTIVITY_NEW_TASK), ao);
-                 */
-                startActivity(new Intent(getApplicationContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT | Intent.FLAG_ACTIVITY_NEW_TASK));
+                // startActivity(new Intent(getApplicationContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT | Intent.FLAG_ACTIVITY_NEW_TASK));
+                try {
+                    Intent windowIntent = new Intent(getApplicationContext(), MainActivity.class);
+                    windowIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+                    windowIntent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                    DisplayMetrics dm = new DisplayMetrics();
+                    getWindowManager().getDefaultDisplay().getMetrics(dm);
+                    ActivityOptions windowOpt = (ActivityOptions) ActivityOptions.class.getMethod("makeBasic").invoke(null);
+                    Rect freeformRect = new Rect(0, 0, dm.widthPixels / 2, dm.heightPixels / 2);
+                    windowOpt.getClass().getDeclaredMethod("setLaunchBounds", Rect.class).invoke(windowOpt, freeformRect);
+                    startActivity(windowIntent, windowOpt.toBundle());
+                    Utility.showToast(getApplicationContext(), "Success!");
+                } catch(Exception e) {
+                    Utility.showToast(getApplicationContext(), "An error has occured while attempting to create a new freeform state activity.\n"+e.toString());
+                }
+
             }
         });
 

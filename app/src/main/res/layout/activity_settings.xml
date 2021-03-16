@@ -13,15 +13,6 @@
 		android:orientation="vertical"
 		app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-		<TextView
-			android:id="@+id/textview1"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:padding="8dp"
-			android:text="@string/settingstitle"
-			android:textColor="#000000"
-			android:textSize="20sp" />
-
 		<Switch
 			android:id="@+id/showoctoasts"
 			android:layout_width="wrap_content"
@@ -57,15 +48,6 @@
 			android:text="@string/settingslaunchtouchblockerwindow"
 			android:textColor="#000000"
 			android:textSize="18sp" />
-
-		<TextView
-			android:id="@+id/textview2"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:padding="8dp"
-			android:text="@string/settingslaunchnewwindownote"
-			android:textColor="#000000"
-			android:textSize="14sp" />
 
 		<Button
 			android:id="@+id/resetsettings"
